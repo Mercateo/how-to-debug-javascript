@@ -26,7 +26,7 @@ You'll **not** get
 1. [Don't fear the `console`](#dont-fear-the-console)
 1. [Leverage breakpoints](#leverage-breakpoints)
 1. [Debugging in VC Code](#debugging-in-vs-code)
-1. [Advanced topics](#advanced topics)
+1. [Advanced topics](#advanced-topics)
 
 # Don't fear the `console`
 
