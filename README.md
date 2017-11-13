@@ -20,17 +20,21 @@ You'll **not** get
 - a basic introduction to JavaScript itself
 - explanations about memory and performance profiling
 - explanations about debugging non JavaScript stuff in your application (CSS, HTML, network...)
+- explanations about configuring tools (e.g. for source map support)
 
 # Table of contents
 
 1. [Don't fear the `console`](#dont-fear-the-console)
+  1. [A simple web project](#a-simple-web-project)
+  1. [A more complex web project](#a-more-complex-web-project)
+  1. [Web projects with a build setup](#web-projects-with-a-build-setup)
 1. [Leverage breakpoints](#leverage-breakpoints)
 1. [Debugging in VC Code](#debugging-in-vs-code)
 1. [Advanced topics](#advanced-topics)
 
 # Don't fear the `console`
 
-## A simple project
+## A simple web project
 
 Hands down. I use the `console` for 90% of my debugging needs. It just fits my habbits well and most of the time I immediatelly see what's the problem. I don't know why many people feel _bad_ about using the `console` for debugging purposes. Probably because in other programming languages printing to the console lacks a lot of features. Thankfully the console is really powerful in JavaScript - _espacially_ for browser environments.
 
@@ -46,7 +50,7 @@ Let's get started with a very simple example.
 <body>
   <h1>Debugging JavaScript</h1>
   <p>Open you browser dev tools to see the console output.</p>
-  <script src="./script.js"></script>
+  <script src="./index.js"></script>
 </body>
 </html>
 ```
@@ -69,25 +73,25 @@ The same example can be found inside [`./browser-console`](./browser-console). J
 
 This is how the browser with the open console looks like in Chrome:
 
-![chrome console](./browser-console/chrome-console.png)
+![chrome console](./assets/chrome-console.png)
 
 And this is Firefox:
 
-![firefox console](./browser-console/chrome-console.png)
+![firefox console](./assets/firefox-console.png)
 
 As you can see you get the basic object printed to the console (**1**) and you can see the origin of the output (**2**) as `script-name:row(:column)`. Note that **1** and **2** are _interactive_ elements. (Also note that I'll use screens from Chrome from now on - except when I'd like to point out something special in the Forefox debugger.)
 
 If you click on **1** you can navigate into the object and you can also see properties which we didn't added, because they are on our objects [`prototype`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain) (in this case just [`__proto__`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto)).
 
-![chrome console](./browser-console/chrome-console-object.png)
+![chrome console](./assets/chrome-console-object.png)
 
 If you click on **2** you'll jump to the "sources panel" in Chrome or "debugger panel" in Firefox where you can inspect the source code and create breakpoints.
 
-![chrome sources panel](./browser-console/chrome-sources.png)
+![chrome sources panel](./assets/chrome-sources.png)
 
 We'll spend more time here in the next chapter. For now let's stick with the console.
 
-## A more complex project
+## A more complex web project
 
 Let us swith to a more complex project now which you can find in [./browser-console-complex](./browser-console-complex) or by copying the following code:
 
@@ -105,7 +109,7 @@ Let us swith to a more complex project now which you can find in [./browser-cons
   <button id="log-element">Log element</button>
   <button id="log-time">Log time</button>
 
-  <script src="./script.js"></script>
+  <script src="./index.js"></script>
 </body>
 </html>
 ```
@@ -128,7 +132,7 @@ logTimeButton.addEventListener('click', function onClick(event) {
 
 Open the `index.html` again and click on the _"Log element"_ button. It should look like this:
 
-![chrome log element](./browser-console-complex/chrome-log-element.png)
+![chrome log element](./assets/chrome-log-element.png)
 
 Here we can notice a couple of things.
 
@@ -141,11 +145,11 @@ That's all we can see from the screenshot alone, but there is more under the hoo
 
 If you hover over the `console.log`ed DOM element the element will actually be highlighted in the screen, but not for `console.dir`. You can also right click on the logged DOM element (via `console.log` or `console.dir`) and click on "Reveal in Elements panel" to jump to exactly this element in the DOM view.
 
-![chrome highlighted element](./browser-console-complex/chrome-highlighted-element.png)
+![chrome highlighted element](./assets/chrome-highlighted-element.png)
 
 If you right click on the `console.dir`'ed element you can also see the option to "Store as global variable". (This should work in nearly all cases, not just for logged DOM elements. Not sure why this isn't an option in the `console.log`'ed DOM element.)
 
-![chrome global var](./browser-console-complex/chrome-global-var.png)
+![chrome global var](./assets/chrome-global-var.png)
 
 Now you can access this global var (in my case its called `temp1`) as often as you want in your console. For example we could just add another event listener to it and use a new console method called `count` while doing so:
 
@@ -153,29 +157,41 @@ Now you can access this global var (in my case its called `temp1`) as often as y
 temp1.addEventListener('mouseover', function onHover() { console.count('hovered'); })
 ```
 
-![chrome event listener](./browser-console-complex/chrome-event-listener.png)
+![chrome event listener](./assets/chrome-event-listener.png)
 
 If you hover over our _"Log element"_ button you should see the new output. `count` just counts how often the line `'hovered'` was logged.
 
-![chrome count](./browser-console-complex/chrome-count.png)
+![chrome count](./assets/chrome-count.png)
 
 If you console gets cluttered by too much output just click the stop icon in the left top corner to clear you current console (or call `console.clear()`).
 
-![chrome clear console](./browser-console-complex/chrome-clear-console.png)
+![chrome clear console](./assets/chrome-clear-console.png)
 
 Now press our _"Log time"_ button a couple of times. You should see an unput similar to this:
 
-![chrome perf](./browser-console-complex/chrome-perf.png)
+![chrome perf](./assets/chrome-perf.png)
 
 As you can see we made some basic performance testing with `console.time` and `console.endTime`. While this is definitely not for complex scenarios you can already gather useful information from these methods. (E.g. we can see that `getBoundingClientRect().height` gets faster over time - probably because the data gets cached and optimized when we run this function multiple times without altering our layout.)
 
 💡 The difference we saw in `console.log` and `console.dir` can be seen in a lot of places - not just DOM elements. In general the `log` represantation is a simpler view ("stringified") while the `dir` representation is more useful, if you wan't to do _more_ with the variable besides reading.
 
-![chrome dir vs log](./browser-console-complex/chrome-dir-vs-log.png)
+![chrome dir vs log](./assets/chrome-dir-vs-log.png)
 
 💡 In many small cases Firefox behaves differently than Chrome here and other browsers will have their own distinct behaviour, too. Try out different tools and see what fits you. In Firefox the difference between `console.log` and `console.dir` is _way_ less explicit. It just alter the initial "look" of the logged variable, but we can swith between the `log` und `dir` represantation on the fly. It is also possible here to store the `console.log`'ed DOM element as a globar variable and the DOM element is highlighted when we hover of the `console.dir`'ed DOM element as well. IMHO Firefox behaviour is more usefull in these cases.
 
 There is much more to discover about the console alone. Checkout the official documentation about the console from [Chrome](https://developers.google.com/web/tools/chrome-devtools/console/) and [Firefox](https://developer.mozilla.org/de/docs/Web/API/Console).
+
+## Web projects with a build setup
+
+Many JavaScript projects use a build step. You use Webpack, TypeScript, Babel or any other compiler/transpiler/preprocessor. The point is: the code you wrote is not necessarly the code that runs inside the browser or Node. Therefor the lines you see in your logs and stack traces don't match the places where they appear in your source code. Thankfully there is a technology to solve that: [Source Maps](https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/). Source Maps an enable debugging tools to match the compiled code back to your original source code. This feature should be enabled in your tooling setup.
+
+Just a quick example which you can find inside [./browser-console-build](./browser-console-build). This is the old example just "converted" to TypeScript and build with our [`ws` tool](https://github.com/Mercateo/ws). Install dependencies with `$ yarn` and run it with `$ yarn start`.
+
+Now you should see your `.ts` file - **not** the `.js` file - in the console output.
+
+![chrome browser console build](./assets/chrome-browser-console-build.png)
+
+What the `ws` tool does is basically configure TypeScript, Babel, Webpack and co. correctly to include Source Maps in your compiled code.
 
 We'll move on to breakpoints now.
 

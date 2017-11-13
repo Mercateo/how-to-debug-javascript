@@ -1,0 +1,15 @@
+{
+  "name": "browser-console-build",
+  "version": "1.0.0",
+  "private": true,
+  "ws": {
+    "type": "spa"
+  },
+  "scripts": {
+    "ws": "ws",
+    "start": "yarn run ws watch"
+  },
+  "devDependencies": {
+    "@mercateo/ws": "^2.5.1"
+  }
+}
