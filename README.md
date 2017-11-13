@@ -25,12 +25,12 @@ You'll **not** get
 # Table of contents
 
 1. [Don't fear the `console`](#dont-fear-the-console)
-  1. [A simple web project](#a-simple-web-project)
-  1. [A more complex web project](#a-more-complex-web-project)
-  1. [Web projects with a build setup](#web-projects-with-a-build-setup)
-1. [Leverage breakpoints](#leverage-breakpoints)
-1. [Debugging in VC Code](#debugging-in-vs-code)
-1. [Advanced topics](#advanced-topics)
+  1.1. [A simple web project](#a-simple-web-project)
+  1.2. [A more complex web project](#a-more-complex-web-project)
+  1.3. [Web projects with a build setup](#web-projects-with-a-build-setup)
+2. [Leverage breakpoints](#leverage-breakpoints)
+3. [Debugging in VC Code](#debugging-in-vs-code)
+4. [Advanced topics](#advanced-topics)
 
 # Don't fear the `console`
 
