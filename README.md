@@ -2,9 +2,9 @@
 
 > If you're happy using `console` clap your hands! 👏
 
-I know there are many tutorials about this topic on the internet. However I still get asked this quite a lot from non JavaScript developers whenever they to write some JavaScript code: _"How do I actually debug my JavaScript code?"_
+I know there are many tutorials about this topic on the internet. However I still get asked this question quite a lot from non JavaScript developers whenever they need to write some JavaScript code: _"How do I actually debug my JavaScript code?"_
 
-I guess they ask, because they found old resources about this topic or they found resources which use a different tooling or they found a tutorial for debugging JavaScript inside the browser, but Node or... There are probably many reasons. So here is my attempt.
+I guess they ask, because they found old resources about this topic or they found resources which use a different tooling or they found a tutorial for debugging JavaScript inside the browser, but not Node or... There are probably many reasons. So here is my attempt to answer their question.
 
 In this article you'll get
 
