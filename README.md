@@ -28,6 +28,7 @@ You'll **not** get
     1. [A simple web project](#a-simple-web-project)
     1. [A more complex web project](#a-more-complex-web-project)
     1. [Web projects with a build setup](#web-projects-with-a-build-setup)
+    1. [Logging in a Node project](#logging-in-a-node-project)
 1. [Leverage breakpoints](#leverage-breakpoints)
 1. [Debugging in VC Code](#debugging-in-vs-code)
 1. [Advanced topics](#advanced-topics)
@@ -193,7 +194,58 @@ Now you should see your `.ts` file - **not** the `.js` file - in the console out
 
 What the `ws` tool does is basically configure TypeScript, Babel, Webpack and co. correctly to include Source Maps in your compiled code.
 
-We'll move on to breakpoints now.
+## Logging in a Node project
+
+Logging a variable inside a Node project is by default less useful than inside a browser, because the terminal just lacks the interactive features of browser developer tools. You can see the limited output if you run the following example (also available inside [./node-console](./node-console)):
+
+```js
+var someObject = {
+  foo: {
+    bar: {
+      baz: {
+        hello: 'foo'
+      }
+    }
+  }
+};
+
+console.log(someObject);
+```
+
+```bash
+$ node index.js
+{ foo: { bar: { baz: [Object] } } }
+```
+
+You can hack around this by using a "pretty printer" which formats your output (occasionally `JSON.stringify(someObject, null, 2)` or `require('util').inspect(someObject, { depth: 100 })` can help here to avoid installing additional dependencies), but don't worry! We can actually use the browser developer tools we just introduced to debug Node applications as well 😍
+
+To do that we just need to pass the `--inspect` flag to Node like this: `$ node --inspect index.js`. Now we are able to open our Chrome developer tools so they can connect to the _running_ Node program. But because our Node script immediately exits after `console.log`, we don't have enough time to do so. That's why we also need to pass the `--debug-brk` flag which sets a _breakpoint_ to our script befor it runs so we have enough time to open and configure our browser dev tools. (💡 Since Node v7 you can also use `--inspect-brk` instead of `--inspect --debug-brk`.)
+
+Now you should see the following output:
+
+```bash
+$ node --inspect --debug-brk index.js
+Debugger listening on port 9229.
+Warning: This is an experimental feature and could change at any time.
+To start debugging, open the following URL in Chrome:
+    chrome-devtools://devtools/remote/serve_file/@60cd6e859b9f557d2312f5bf532f6aec5f284980/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:9229/9557375c-e101-4100-ac8c-8860d8a9dca5
+```
+
+You can actually _ignore_ the URL in the output and just open [`chrome://inspect`](chrome://inspect) in you Chrome browser. You should see all available "debugging targets" - but there probably is just one target for the script you just started. Now click on _"inspect"_.
+
+![chrome inspect](./assets/chrome-inspect.png)
+
+You should now be in the _"sources"_ panel. Click on the blue arrow to run the program.
+
+![chrome inspect run](./assets/chrome-inspect-run.png)
+
+Now you can switch to the _"console"_ and you should be able to see the output from your Node program.
+
+![chrome inspect output](./assets/chrome-inspect-output.png)
+
+💡 Source Maps work for Node projects as well.
+
+With `--debug-brk` we also saw the first usage of a breakpoint so let's move on to learn more about them!
 
 # Leverage breakpoints
 
