@@ -180,6 +180,8 @@ As you can see we made some basic performance testing with `console.time` and `c
 
 💡 In many small cases Firefox behaves differently than Chrome here and other browsers will have their own distinct behaviour, too. Try out different tools and see what fits you. In Firefox the difference between `console.log` and `console.dir` is _way_ less explicit. It just alter the initial "look" of the logged variable, but we can swith between the `log` und `dir` represantation on the fly. It is also possible here to store the `console.log`'ed DOM element as a globar variable and the DOM element is highlighted when we hover of the `console.dir`'ed DOM element as well. IMHO Firefox behaviour is more usefull in these cases.
 
+💡 Chrome dev tools offer some special functions. For example you can use `monitor(someFunction)` and every time `someFunction` is called, this will be logged to your console including all params. Or you can use `queryObjects(constructor)` to get all instances of that constructor. E.g. when you call `queryObjects(Array)` you'll get all arrays which are currently used in your application. [Read this article](http://www.sbegaudeau.com/2017/11/30/chrome-devtools-part2.html) to get more information about how to use the console.
+
 There is much more to discover about the console alone. Checkout the official documentation about the console from [Chrome](https://developers.google.com/web/tools/chrome-devtools/console/) and [Firefox](https://developer.mozilla.org/de/docs/Web/API/Console).
 
 ## Web projects with a build setup
