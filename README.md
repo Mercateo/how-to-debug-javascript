@@ -30,6 +30,7 @@ You'll **not** get
     1. [Web projects with a build setup](#web-projects-with-a-build-setup)
     1. [Logging in a Node project](#logging-in-a-node-project)
 1. [Leverage breakpoints](#leverage-breakpoints)
+    1. [Breakpoints in a web project](#breakpoints-in-a-web-project)
 1. [Debugging in VC Code](#debugging-in-vs-code)
 1. [Advanced topics](#advanced-topics)
 
@@ -251,7 +252,58 @@ With `--debug-brk` we also saw the first usage of a breakpoint so let's move on 
 
 # Leverage breakpoints
 
-***TODO***
+## Breakpoints in a web project
+
+Now I'll introduce you to several ways how you can set breakpoints in you application. We need another example for that which you can find inside [./browser-breakpoints](./browser-breakpoints) or by copying the following code:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Debugging JavaScript</title>
+</head>
+<body>
+  <h1>Debugging JavaScript</h1>
+  <p>Open you browser dev tools to test the breakpoints.</p>
+
+  <button id="break-debugger">Break with `debugger`</button>
+  <button id="break-manually">Break manually</button>
+  <button id="break-on-error">Throw error</button>
+
+  <script src="./index.js"></script>
+</body>
+</html>
+```
+
+```js
+var breakDebuggerButton = document.getElementById('break-debugger');
+breakDebuggerButton.addEventListener('click', function onClick(event) {
+  debugger;
+});
+
+var breakManuallyButton = document.getElementById('break-manually');
+breakManuallyButton.addEventListener('click', function onClick(event) {
+  console.log('Place a breakpoint here.');
+});
+
+var breakOnErrorButton = document.getElementById('break-on-error');
+breakOnErrorButton.addEventListener('click', function onClick(event) {
+  throw 'You are not allowed to click this.';
+});
+```
+
+Probably the easiest way to add a breakpoint is by using `debugger;`. Just write it down wherever you want to investigate something. Very much like you used `console.log()`. If you open your dev tools and click on the _"Break with `debugger`"_ button you should see something like this:
+
+![chrome breakpoint](./assets/chrome-breakpoint.png)
+
+Your website grayed out and overlay appeared (_1_). When you click on the blue arrow your application continues as usual. If you click on the black arrow with the dot underneath it you'll skip the next function call (not really meaningful in this example).
+
+You'll also see that your dev tools switched to the _"Sources"_ panel and you can see your source code with the values of some of your variables inlined (_2_, here: `event = MouseEvent`). This is even more powerful, if you hover over a variable. It will show you a nice navigatable view for your variable - very much like if you would have used `console.log`.
+
+![chrome breakpoint hover](./assets/chrome-breakpoint-hover.png)
+
+But one of the most powerful tools can be found on the right side (_3_). Here you can investigate the call stack or things like your current scopes. Very powerful. You should play around a little bit with this view to get the hang of everything.
 
 # Debugging in VS Code
 
