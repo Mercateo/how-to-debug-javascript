@@ -31,6 +31,7 @@ You'll **not** get
     1. [Logging in a Node project](#logging-in-a-node-project)
 1. [Leverage breakpoints](#leverage-breakpoints)
     1. [Breakpoints in a web project](#breakpoints-in-a-web-project)
+    1. [Breakpoints in a Node project or projects with a build step](#breakpoints-in-a-node-project-or-projects-with-a-build-step)
 1. [Debugging in VC Code](#debugging-in-vs-code)
 1. [Advanced topics](#advanced-topics)
 
@@ -304,6 +305,40 @@ You'll also see that your dev tools switched to the _"Sources"_ panel and you ca
 ![chrome breakpoint hover](./assets/chrome-breakpoint-hover.png)
 
 But one of the most powerful tools can be found on the right side (_3_). Here you can investigate the call stack or things like your current scopes. Very powerful. You should play around a little bit with this view to get the hang of everything.
+
+Writing `debugger;` somewhere in your application isn't the only way to set a breakpoint. An alternative where you don't need to actually change the source code - and therefor can be used on just any page you browse - is by clicking on a specific line in the column left to your source code.
+
+![chrome breakpoint hover](./assets/chrome-breakpoint-hover.png)
+
+You can see that this line now contains a breakpoint by looking at the blue arrow. If you click on _"Break manually"_ now you'll see that your application is paused again.
+
+There are _sooooo_ many ways to set a breakpoint. We'll have a look on two more ways, before we switch to next chapter.
+
+Let us switch to the _"Elements"_ panel. We can create a breakpoint even here. Try to find the _"Break manually"_ button in the elements tree view. Right click on the element and go to _"Break on... > attribute modifications"_:
+
+![chrome breakpoint elements](./assets/chrome-breakpoint-elements.png)
+
+You'll see that a small blue dot appeared next to your element:
+
+![chrome breakpoint elements on](./assets/chrome-breakpoint-elements-on.png)
+
+If you write something like `document.getElementById('break-manually').setAttribute('data-foo', 'bar')` in your console now, you'll see that your application will run into your configured breakpoint, because we modified the attributes of our element.
+
+Now to the last example which I personally use a lot: _"Pause on exceptions"_. Try to click on the _"Throw error"_ button. You should see the following error in your console:
+
+![chrome throw error](./assets/chrome-throw-error.png)
+
+Who hasn't seen an application which suddenly throws an error like this? 😏 Imagine this error happens deep in your application or somewhere in a framework you use. How to get to this place where the error was thrown? I'm glad you asked! Just click on the "pause" symbol in the upper right of your _"Sources"_ panel. (Note the checkbox below - we can even pause on caught exceptions, if we want to.)
+
+![chrome breakpoint exception](./assets/chrome-breakpoint-exception.png)
+
+If you click on the _"Throw error"_ button again you'll see our familiar paused application state. 🎉
+
+![chrome breakpoint exception pause](./assets/chrome-breakpoint-exception-pause.png)
+
+## Breakpoints in a Node project or projects with a build step
+
+***TODO***
 
 # Debugging in VS Code
 
